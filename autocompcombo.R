@@ -3,20 +3,15 @@ library(tcltk2)
 library(Eccolepack)
 
 tcl('lappend', 'auto_path', "~/Desktop/EccoleRdev/EccoTk")
-tclRequire( 'EccoTk', '1.0')
+tclRequire('EccoTk','1.0')
 
 
 win1 <- tktoplevel()
 escrito <- tclVarName("escrito","")
 win1$env$combbox <- ttkcombobox(win1, values=tolower(crucecodigos$Nomlabel),
                                 textvariable=escrito, width=67)
-
-# tkpack(tklabel(win1,text="Colegios"))
-# fruits <- tolower(crucecodigos$Nomlabel)
-# win1$env$combbox <- tkwidget(win1,"ComboBox",editable=TRUE,values=fruits,autopost=TRUE)
 tkpack(win1$env$combbox, padx=5, pady=5)
 tcl('bind', win1$env$combbox, "<KeyRelease>", tcl('list', 'EccoTk::ComboBoxAutoComplete',win1$env$combbox, '%K'))
-
 
 
 
