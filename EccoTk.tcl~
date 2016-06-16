@@ -8,7 +8,7 @@ namespace eval ::EccoTk {
  
 	# Set up Variable
 	set version 1.0
-	set EccoTkDescription "EccoTk"
+	set EccoTkDescription "EccoTk: package to improve on EccoleR's tcltk interface"
  
         # Variable for the path of the script
         variable home [file join [pwd] [file dirname [info script]]]
