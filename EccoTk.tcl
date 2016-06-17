@@ -31,7 +31,7 @@ proc ::EccoTk::ComboBoxAutoComplete {path key} {
 	# Any key string with more than one character is considered a function key and is thus ignored
 
 	
-	if {[string length $key] > 1 && [string equal -nocase $key BackSpace] == 0} {return}
+	if {[string length $key] > 1} {return}
 
 	
 	# disabling [ and ]
