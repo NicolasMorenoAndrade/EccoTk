@@ -28,13 +28,14 @@ proc ::EccoTk::GetPath {} {
 proc ::EccoTk::ComboBoxAutoComplete {path key} {
 
 
-
 	# Any key string with more than one character is considered a function key and is thus ignored
 
-	if {[string length $key] > 1} {return}
+	
+	if {[string length $key] > 1 && [string equal -nocase $key BackSpace] == 0} {return}
 
-
+	
 	# disabling [ and ]
+	
         set text [string map [list {[} {\[} {]} {\]}] [$path get]]
 
         set values [$path cget -values]
@@ -52,13 +53,10 @@ proc ::EccoTk::ComboBoxAutoComplete {path key} {
 
 	if {[string compare [string toupper $text] $prm]<0} {set prol [string length $text]}
 
-
-	set fir [expr [string first [string toupper " $text"] $prm] - 1]
 	set prol [expr [string first [string toupper " $text"] $prm] + [string length $text] + 1]
 	$path set $prm
 	$path icursor $prol
 	$path selection range $prol end
-
 
 	
 }
