@@ -8,7 +8,7 @@ namespace eval ::EccoTk {
  
 	# Set up Variable
 	set version 1.0
-	set EccoTkDescription "EccoTk: package to improve on EccoleR's tcltk interface"
+	set EccoTkDescription "EccoTk: improvements on EccoleR's tcltk interface"
  
         # Variable for the path of the script
         variable home [file join [pwd] [file dirname [info script]]]
@@ -26,7 +26,41 @@ proc ::EccoTk::GetPath {} {
 }
 
 proc ::EccoTk::ComboBoxAutoComplete {path key} {
-        # autocomplete a string in the ttk::combobox from the list of values
+
+
+	# Any key string with more than one character is considered a function key and is thus ignored
+	if {[string length $key] > 1} {return}
+
+	
+	# disabling [ and ]
+	
+        set text [string map [list {[} {\[} {]} {\]}] [$path get]]
+
+        set values [$path cget -values]
+
+
+	# hace la b´usqueda de los strings en la lista values que empiezan por lo escrito ya sea al principio de la palabra o 		despu´es de un espacio, pero primero se asegura de que haya un match
+	if {[lsearch -regexp -nocase $values [subst -nocommands -nobackslashes {(\A$text)|(\s$text)}]]<0} {return} 
+        
+	set actualizados [lsearch -regexp -nocase -all -inline $values [subst -nocommands -nobackslashes {(\A$text)|(\s$text)}]]
+
+	$path configure -values $actualizados
+	
+	set prm [lindex $actualizados 0]
+
+	if {[string compare [string toupper $text] $prm]<0} {set prol [string length $text]}
+
+	set prol [expr [string first [string toupper " $text"] $prm] + [string length $text] + 1]
+	$path set $prm
+	$path icursor $prol
+	$path selection range $prol end
+
+	
+}
+
+proc ::EccoTk::ComboBoxAutoCompleteOriginal {path key} {
+
+ # autocomplete a string in the ttk::combobox from the list of values
         #-
         # Any key string with more than one character and is not entirely
         # lower-case is considered a function key and is thus ignored.
@@ -39,14 +73,16 @@ proc ::EccoTk::ComboBoxAutoComplete {path key} {
         if {[string equal $text ""]} {return}
         
         set values [$path cget -values]
-        set x [lsearch $values $text*]
+        set x [lsearch -nocase $values $text*]
         if {$x < 0} {return}
         
         set index [$path index insert]
         $path set [lindex $values $x]
         $path icursor $index
         $path selection range insert end
+	
 }
+
 
 package provide EccoTk $EccoTk::version
 package require Tcl      8.0

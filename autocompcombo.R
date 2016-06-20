@@ -7,9 +7,8 @@ tclRequire('EccoTk','1.0')
 
 
 win1 <- tktoplevel()
-escrito <- tclVarName("escrito","")
-win1$env$combbox <- ttkcombobox(win1, values=tolower(crucecodigos$Nomlabel),
-                                textvariable=escrito, width=67)
+
+win1$env$combbox <- ttkcombobox(win1, values=crucecodigos$Nomlabel, width=67)
 tkpack(win1$env$combbox, padx=5, pady=5)
 tcl('bind', win1$env$combbox, "<KeyRelease>", tcl('list', 'EccoTk::ComboBoxAutoComplete',win1$env$combbox, '%K'))
 
