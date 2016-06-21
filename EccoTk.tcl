@@ -38,7 +38,10 @@ proc ::EccoTk::ComboBoxAutoComplete {path key} {
         set text [string map [list {[} {\[} {]} {\]}] [$path get]]
 	
 	#fix backspace??
+	if {[string equal $text "BackSpace"]} {return}
+
 	if {[string equal $text ""]} {return}
+	
         set values [$path cget -values]
 
 
@@ -70,7 +73,7 @@ proc ::EccoTk::ComboBoxAutoCompleteOriginal {path key} {
         #
         # path -> path to the combobox
         #
-	if {string equal "BackSpace"}
+	#if {string equal $text "BackSpace"} {return}
 
         if {[string length $key] > 1 && [string tolower $key] != $key} {return}
         
@@ -84,7 +87,7 @@ proc ::EccoTk::ComboBoxAutoCompleteOriginal {path key} {
         set index [$path index insert]
         $path set [lindex $values $x]	
         $path icursor $index
-        #$path selection range insert end
+        $path selection range insert end
 	
 }
 
