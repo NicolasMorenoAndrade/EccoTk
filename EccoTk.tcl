@@ -27,6 +27,19 @@ proc ::EccoTk::GetPath {} {
         return $home
 }
 
+# Busca en la lista y la actualiza segun lo encontrado
+proc buscarActualizar {path} {
+
+	set text [$path get]
+	variable listaColegios $listaColegios
+	
+	if {[lsearch -regexp -nocase $listaColegios [subst -nocommands -nobackslashes {(\A$text)|(\s$text)}]]<0} {return} 
+        set actualizados [lsearch -regexp -nocase -all -inline $listaColegios [subst -nocommands -nobackslashes {(\A$text)|(\s$text)}]]
+
+	$path configure -values $actualizados
+
+	return $actualizados
+	}
 
 proc ::EccoTk::ComboBoxAutoComplete {path key} {
 
