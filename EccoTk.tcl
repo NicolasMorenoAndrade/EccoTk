@@ -1,5 +1,6 @@
 # Create the namespace
 namespace eval ::EccoTk {
+
  
 	# Export proc
     	namespace export Talk
